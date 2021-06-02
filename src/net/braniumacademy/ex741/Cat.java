@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 public class Cat implements Serializable {
     private String color;
+    private String eyesColor;
     private int age;
     private String petName;
     private String favoriteFood;
@@ -17,12 +18,13 @@ public class Cat implements Serializable {
         this.petName = petName;
     }
 
-    public Cat(String color, int age, String petName, String favoriteFood)
+    public Cat(String color, String eyesColor, int age, String petName, String favoriteFood)
             throws InvalidAgeException {
         this.color = color;
         this.setAge(age);
         this.petName = petName;
         this.favoriteFood = favoriteFood;
+        this.eyesColor = eyesColor;
     }
 
     public String getColor() {
@@ -48,6 +50,14 @@ public class Cat implements Serializable {
             var msg = "Tuổi không hợp lệ: " + age;
             throw new InvalidAgeException(msg, age);
         }
+    }
+
+    public String getEyesColor() {
+        return eyesColor;
+    }
+
+    public void setEyesColor(String eyesColor) {
+        this.eyesColor = eyesColor;
     }
 
     public String getPetName() {

@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Test {
     public static void main(String[] args) {
@@ -38,29 +40,54 @@ public class Test {
                     cats.add(cat);
                     break;
                 case 2:
-                    showHeader();
-                    sortCatsByAgeASC(cats);
-                    showCatsOnScreen(cats);
+                    if (cats.size() > 0) {
+                        showHeader();
+                        sortCatsByAgeASC(cats);
+                        showCatsOnScreen(cats);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
                 case 3:
-                    showHeader();
-                    sortCatsByAgeDESC(cats);
-                    showCatsOnScreen(cats);
+                    if (cats.size() > 0) {
+                        showHeader();
+                        sortCatsByAgeDESC(cats);
+                        showCatsOnScreen(cats);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
                 case 4:
-                    showHeader();
-                    sortCatsByNameAZ(cats);
-                    showCatsOnScreen(cats);
+                    if (cats.size() > 0) {
+                        showHeader();
+                        sortCatsByNameAZ(cats);
+                        showCatsOnScreen(cats);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
                 case 5:
-                    var name = input.nextLine();
-                    searchCatByName(cats, name);
+                    if (cats.size() > 0) {
+                        System.out.println("Nhập tên cần tìm: ");
+                        var name = input.nextLine();
+                        searchCatByName(cats, name);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
                 case 6:
-                    showCatsOnScreen(cats);
+                    if (cats.size() > 0) {
+                        showCatsOnScreen(cats);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
                 case 7:
-                    writeEmpToFile(cats, fileName);
+                    if (cats.size() > 0) {
+                        writeEmpToFile(cats, fileName);
+                    } else {
+                        System.out.println("<== DANH SÁCH MÈO RỖNG ==>");
+                    }
                     break;
             }
         } while (choice != 0);
@@ -71,7 +98,7 @@ public class Test {
     }
 
     private static void showCatsOnScreen(ArrayList<Cat> cats) {
-        System.out.printf("%-25s%-20s%-20s%-25s",
+        System.out.printf("%-25s%-20s%-20s%-25s\n",
                 "Tên gọi", "Tuổi", "Màu lông", "Thức ăn yêu thích");
         for (var item : cats) {
             showPetInfo(item);
@@ -79,10 +106,12 @@ public class Test {
     }
 
     private static void searchCatByName(ArrayList<Cat> cats, String name) {
-        System.out.println("<== KẾT QUẢ TÌM KIẾM ==>");
+        System.out.println("<======================== KẾT QUẢ TÌM KIẾM ========================>");
+        Pattern pattern = Pattern.compile(".*" + name + ".*", Pattern.CASE_INSENSITIVE);
         var counter = 0; // đếm xem tìm thấy bao nhiêu kết quả
         for (var item : cats) {
-            if (item.getPetName().matches("%" + name + "%")) {
+            Matcher matcher = pattern.matcher(item.getPetName());
+            if (matcher.matches()) {
                 showPetInfo(item);
                 counter++;
             }
@@ -176,7 +205,7 @@ public class Test {
     }
 
     private static void showPetInfo(Cat myCat) {
-        System.out.printf("%-25s%-20d%-20s%-25s",
+        System.out.printf("%-25s%-20d%-20s%-25s\n",
                 myCat.getPetName(), myCat.getAge(),
                 myCat.getEyesColor(), myCat.getFavoriteFood());
     }
